@@ -7,11 +7,10 @@ import org.springframework.web.reactive.function.server.RouterFunction;
 import org.springframework.web.reactive.function.server.ServerResponse;
 
 import static org.springframework.web.reactive.function.server.RequestPredicates.*;
-import static org.springframework.web.reactive.function.server.RequestPredicates.DELETE;
 import static org.springframework.web.reactive.function.server.RouterFunctions.route;
 
 @Configuration
-public class RouterConfig {
+public class RouterConfig{
     @Bean
     public RouterFunction<ServerResponse> routes(ManageHandler handler){
         return route(POST("/manage"), handler::create);

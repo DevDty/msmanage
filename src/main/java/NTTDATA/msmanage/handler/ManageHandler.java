@@ -4,6 +4,7 @@ import NTTDATA.msmanage.model.Manage;
 import NTTDATA.msmanage.model.dto.ManageDto;
 import NTTDATA.msmanage.service.CustomerService;
 import NTTDATA.msmanage.service.ManageService;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import java.net.URI;
 
 @Component
 @RequiredArgsConstructor
-public class ManageHandler {
+public class ManageHandler{
     private final ManageService serviceManage;
     private final CustomerService serviceCustomer;
 
@@ -34,6 +35,6 @@ public class ManageHandler {
                 .flatMap(r -> ServerResponse.created(URI.create("/manage/".concat(r.getId())))
                         .contentType(MediaType.APPLICATION_JSON)
                         .bodyValue(r)
-                );
+                ).switchIfEmpty(ServerResponse.notFound().build());
     }
 }
